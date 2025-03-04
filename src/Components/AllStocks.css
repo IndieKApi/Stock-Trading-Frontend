@@ -1,0 +1,8 @@
+.qwerty:hover{
+    background-color: rgb(245, 245, 245);
+    
+    transform: scale(1.03);
+    transition: 0.05s;
+
+    
+}
