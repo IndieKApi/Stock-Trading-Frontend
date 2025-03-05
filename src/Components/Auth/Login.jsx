@@ -29,7 +29,12 @@ function Login() {
       
       if (response.status === 200) {
         // Inventory creation request
-        const inventory = await axios.get(`http://localhost:5000/inventory/all/${localStorage.getItem("userId")}`);
+        const inventory = await axios.get(`http://localhost:5000/inventory/all/${localStorage.getItem("userId")}`, {
+          headers: {
+            'Authorization': `Bearer ${jwt}`
+          }
+        });
+        
         localStorage.setItem("inventoryId", inventory.data[0].inventoryId);
         setMessage('Login successful!');
       }

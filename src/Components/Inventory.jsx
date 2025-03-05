@@ -31,8 +31,9 @@ function Inventory() {
             }
           );
           const inventoryData = response.data[0];
+          inventoryData.stocks.reverse();
           setInventory(inventoryData);
-          console.log(inventoryData);
+          // console.log(inventoryData);
         } catch (error) {
           errorHandle(error, handleLogout);
           console.error("Error fetching inventory:", error);
@@ -89,7 +90,7 @@ function Inventory() {
       </div>
       {inventory.stocks.length > 0 ? (
         inventory.stocks.map((stock, index) => {
-          console.log(stock);
+          // console.log(stock);
           return (
             <div key={index} onClick={() => handleCardClick(stock)}>
               <InventoryStocks

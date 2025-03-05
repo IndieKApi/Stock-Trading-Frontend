@@ -22,7 +22,11 @@ const Orders = () => {
               'Authorization': `Bearer ${jwt}`
             }
           });
+          
+          response.data.reverse();
           setOrders(response.data);
+          
+
         } catch (error) {
           errorHandle(error, handleLogout);
           console.error("Error fetching orders:", error);
@@ -44,7 +48,7 @@ const Orders = () => {
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Orders</h1>
-      {orders.reverse().map((order) => (
+      {orders.map((order) => (
         <SingleOrder key={order.orderId} order={order} />
       ))}
       <div style={{height:'70px'}}></div>
