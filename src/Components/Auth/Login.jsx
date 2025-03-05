@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
-
-function Login({ onLogin }) {
+import { AuthContext } from '../../Context/AuthContext';
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  
+  const { handleLogin } = useContext(AuthContext); // Use the handleLogin function from the context
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,23 +27,17 @@ function Login({ onLogin }) {
 
       console.log("this is working");
       
-      
-
       if (response.status === 200) {
         // Inventory creation request
-        const inventory = await axios.get(`http://localhost:5000/inventory/all/${localStorage.getItem("userId")}`, {
-        });
-        
-        localStorage.setItem("inventoryId",inventory.data[0].inventoryId);
-
+        const inventory = await axios.get(`http://localhost:5000/inventory/all/${localStorage.getItem("userId")}`);
+        localStorage.setItem("inventoryId", inventory.data[0].inventoryId);
         setMessage('Login successful!');
       }
       
-      onLogin(); // Notify parent component of login success
+      handleLogin(); // Notify the context of login success
       navigate('/'); // Redirect to home page
     } catch (error) {
       console.log(error);
-      
       setMessage('Login failed. Please try again.');
     }
   };

@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+// src/Components/Orders.jsx
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SingleOrder from './Orders/SingleOrder';
+import { errorHandle } from '../utility/errorHandle'; 
+import { AuthContext } from '../Context/AuthContext';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, handleLogout } = useContext(AuthContext);
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    setIsLoggedIn(!!jwt);
 
     if (jwt) {
       const fetchOrders = async () => {
@@ -22,6 +24,7 @@ const Orders = () => {
           });
           setOrders(response.data);
         } catch (error) {
+          errorHandle(error, handleLogout);
           console.error("Error fetching orders:", error);
         }
       };
